@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Noerz Assistant — Chat dengan AI</title>
+<meta name="description" content="Chat dengan berbagai model AI terbaik dalam satu platform. Gratis.">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
+<style>
+  :root{
+    --bg:#08080a;
+    --surface:rgba(255,255,255,0.04);
+    --surface-hover:rgba(255,255,255,0.06);
+    --border:rgba(255,255,255,0.08);
+    --border-strong:rgba(255,255,255,0.14);
+    --border-glow:rgba(255,255,255,0.3);
+    --text:#f5f5f7;
+    --text-secondary:#9a9aa2;
+    --text-tertiary:#68686f;
+    --radius-sm:10px;
+    --radius-md:14px;
+    --radius-lg:16px;
+    --radius-full:9999px;
+    --ease:cubic-bezier(0.16,1,0.3,1);
+  }
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html{overflow-x:hidden;overflow-x:clip;width:100%;max-width:100%;scroll-behavior:smooth;}
+  body{
+    overflow-x:hidden;overflow-x:clip;
+    width:100%;max-width:100%;
+    background:var(--bg);color:var(--text);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;min-height:100vh;font-size:15px;
+  }
+  main,section,div{max-width:100%;}
+  img,video,svg{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+  :focus{outline:none;}
+  :focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:6px;}
+
+  .container{width:100%;max-width:960px;margin:0 auto;padding:0 16px;box-sizing:border-box;}
+
+  /* NAV */
+  .nav{
+    position:sticky;top:0;z-index:100;width:100%;
+    background:rgba(8,8,10,0.75);
+    backdrop-filter:blur(20px) saturate(160%);
+    -webkit-backdrop-filter:blur(20px) saturate(160%);
+    border-bottom:0.5px solid var(--border);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;min-height:56px;gap:12px;}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:15px;min-width:0;color:var(--text);}
+  .brand img{width:28px;height:28px;border-radius:7px;object-fit:cover;flex-shrink:0;}
+  .brand span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+  .nav-actions{display:flex;gap:8px;align-items:center;flex-shrink:0;}
+
+  .btn-nav{
+    display:inline-flex;align-items:center;justify-content:center;gap:6px;
+    padding:8px 16px;border-radius:var(--radius-full);
+    font-size:13px;font-weight:600;
+    border:0.5px solid var(--border-strong);
+    background:rgba(255,255,255,0.04);color:var(--text);
+    white-space:nowrap;
+    transition:background .2s var(--ease),border-color .2s var(--ease);
+  }
+  .btn-nav:hover{background:rgba(255,255,255,0.08);border-color:var(--border-glow);}
+  .btn-nav.primary{background:#fff;color:var(--bg);border-color:rgba(255,255,255,0.2);}
+  .btn-nav.primary:hover{background:#f5f5f7;box-shadow:0 0 24px rgba(255,255,255,0.25);}
+  .btn-nav .bx{font-size:15px;}
+
+  /* HERO */
+  .hero{padding:72px 0 48px;text-align:center;}
+  .hero-logo{
+    width:88px;height:88px;border-radius:22px;
+    margin:0 auto 20px;object-fit:cover;
+    box-shadow:0 0 0 1px rgba(255,255,255,0.06),0 0 40px rgba(255,255,255,0.15),0 0 80px rgba(255,255,255,0.08);
+  }
+  .hero-eyebrow{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:11.5px;font-weight:600;letter-spacing:0.08em;
+    text-transform:uppercase;color:var(--text-tertiary);
+    margin-bottom:14px;padding:5px 12px;
+    background:rgba(255,255,255,0.04);
+    border:0.5px solid var(--border);
+    border-radius:var(--radius-full);
+  }
+  .hero-eyebrow .dot{
+    width:6px;height:6px;border-radius:50%;
+    background:#fff;box-shadow:0 0 8px #fff;
+    animation:pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:1;transform:scale(1);}
+    50%{opacity:0.4;transform:scale(0.9);}
+  }
+  .hero h1{
+    font-size:clamp(30px,7vw,46px);font-weight:800;
+    letter-spacing:-0.03em;line-height:1.05;margin-bottom:8px;
+    background:linear-gradient(180deg,#fff 0%,#a1a1a8 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  }
+  .hero .subtitle{
+    font-size:clamp(14px,3vw,17px);
+    color:var(--text-secondary);font-weight:500;
+    margin-bottom:20px;max-width:480px;margin-left:auto;margin-right:auto;
+  }
+  .hero p.desc{
+    max-width:480px;margin:0 auto 28px;
+    color:var(--text-secondary);font-size:15px;line-height:1.6;
+  }
+  .hero-actions{
+    display:flex;justify-content:center;gap:10px;flex-wrap:wrap;
+  }
+  .btn-hero{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:14px 28px;border-radius:var(--radius-full);
+    font-size:15px;font-weight:700;
+    width:100%;max-width:260px;white-space:nowrap;cursor:pointer;
+    transition:transform .15s var(--ease),box-shadow .2s var(--ease),background .2s var(--ease);
+  }
+  .btn-hero.primary{
+    background:#fff;color:var(--bg);
+    box-shadow:0 0 24px rgba(255,255,255,0.2);
+  }
+  .btn-hero.primary:hover{
+    transform:translateY(-2px);background:#f5f5f7;
+    box-shadow:0 0 40px rgba(255,255,255,0.35);
+  }
+  .btn-hero.secondary{
+    background:rgba(255,255,255,0.05);
+    border:0.5px solid var(--border-strong);
+    color:var(--text);
+  }
+  .btn-hero.secondary:hover{
+    background:rgba(255,255,255,0.08);
+    border-color:var(--border-glow);
+  }
+  @media (min-width:640px){
+    .hero{padding:96px 0 64px;}
+    .hero-logo{width:100px;height:100px;border-radius:26px;}
+    .btn-hero{width:auto;}
+  }
+
+  /* SECTION */
+  .section{padding:48px 0;}
+  @media (min-width:640px){.section{padding:64px 0;}}
+  .section-head{text-align:center;margin-bottom:32px;max-width:520px;margin-left:auto;margin-right:auto;}
+  .section-head .eyebrow{
+    color:var(--text-tertiary);font-size:11.5px;font-weight:600;
+    letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;
+  }
+  .section-head h2{
+    font-size:clamp(22px,4vw,30px);font-weight:800;
+    letter-spacing:-0.02em;margin-bottom:8px;
+  }
+  .section-head p{color:var(--text-secondary);font-size:14.5px;line-height:1.6;}
+
+  /* FEATURES */
+  .features{display:grid;grid-template-columns:1fr;gap:12px;max-width:720px;margin:0 auto;}
+  @media (min-width:640px){.features{grid-template-columns:1fr 1fr;}}
+  .feature{
+    display:flex;align-items:flex-start;gap:14px;
+    padding:18px;background:var(--surface);
+    border:0.5px solid var(--border);border-radius:var(--radius-md);
+    transition:background .2s var(--ease),border-color .2s var(--ease);
+  }
+  .feature:hover{background:var(--surface-hover);border-color:var(--border-glow);}
+  .feature-icon{
+    width:40px;height:40px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:20px;flex-shrink:0;
+    background:rgba(255,255,255,0.06);
+    border:0.5px solid rgba(255,255,255,0.12);
+    color:#fff;
+  }
+  .feature-text h3{font-size:14.5px;font-weight:700;margin-bottom:4px;}
+  .feature-text p{font-size:13px;color:var(--text-secondary);line-height:1.55;}
+
+  /* MODELS */
+  .models{
+    display:grid;grid-template-columns:1fr;gap:10px;
+    max-width:720px;margin:0 auto;
+  }
+  @media (min-width:640px){.models{grid-template-columns:1fr 1fr;}}
+  .model-card{
+    display:flex;align-items:center;gap:12px;
+    padding:14px 16px;
+    background:var(--surface);
+    border:0.5px solid var(--border);
+    border-radius:var(--radius-md);
+    transition:background .2s var(--ease),border-color .2s var(--ease);
+  }
+  .model-card:hover{background:var(--surface-hover);border-color:var(--border-glow);}
+  .model-card img{
+    width:36px;height:36px;border-radius:10px;
+    object-fit:cover;flex-shrink:0;
+    background:rgba(255,255,255,0.06);
+    border:0.5px solid rgba(255,255,255,0.12);
+  }
+  .model-card-info{min-width:0;flex:1;}
+  .model-card-info strong{
+    display:block;font-size:13.5px;font-weight:600;margin-bottom:2px;
+  }
+  .model-card-info span{
+    font-size:11.5px;color:var(--text-tertiary);
+    display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+
+  /* FOOTER */
+  footer{
+    border-top:0.5px solid var(--border);
+    padding:32px 0;
+    text-align:center;
+    font-size:12.5px;
+    color:var(--text-tertiary);
+  }
+  .footer-brand{
+    display:flex;align-items:center;justify-content:center;
+    gap:8px;margin-bottom:12px;color:var(--text-secondary);
+    font-weight:600;font-size:13px;
+  }
+  .footer-brand img{width:22px;height:22px;border-radius:6px;object-fit:cover;}
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation-duration:0.01ms !important;transition-duration:0.01ms !important;}
+  }
+</style>
+</head>
+<body data-page="home">
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="brand">
+      <img src="assets/logo.png" alt="Noerz Assistant">
+      <span>Noerz Assistant</span>
+    </a>
+    <div class="nav-actions" id="navActions">
+      <a href="login.html" class="btn-nav">Login</a>
+      <a href="register.html" class="btn-nav primary">Daftar</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <img src="assets/logo.png" alt="Noerz Assistant" class="hero-logo">
+      <div class="hero-eyebrow">
+        <span class="dot"></span>
+        One platform · Every intelligence
+      </div>
+      <h1>Noerz Assistant</h1>
+      <p class="subtitle">Chat dengan AI canggih. Gratis.</p>
+      <p class="desc">Akses 9 model AI terbaik — GPT, Claude, Gemini, DeepSeek, Qwen — dalam satu platform. Tanpa ribet, langsung pakai.</p>
+      <div class="hero-actions">
+        <a href="register.html" class="btn-hero primary">
+          <i class='bx bx-user-plus'></i>
+          Mulai Gratis
+        </a>
+        <a href="login.html" class="btn-hero secondary">
+          <i class='bx bx-log-in'></i>
+          Sudah Punya Akun
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow">Kenapa Noerz Assistant</div>
+        <h2>Fitur Unggulan</h2>
+        <p>Platform yang dirancang untuk kemudahan dan kecepatan.</p>
+      </div>
+
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon"><i class='bx bx-chip'></i></div>
+          <div class="feature-text">
+            <h3>Multi-Model AI</h3>
+            <p>Pilih dari 9 model AI terbaik sesuai kebutuhan Anda.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon"><i class='bx bxs-bolt'></i></div>
+          <div class="feature-text">
+            <h3>Cepat & Responsif</h3>
+            <p>Respons AI realtime, dengan antarmuka yang ringan.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon"><i class='bx bx-history'></i></div>
+          <div class="feature-text">
+            <h3>Riwayat Tersimpan</h3>
+            <p>Semua chat otomatis tersimpan di akun Anda.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon"><i class='bx bx-sync'></i></div>
+          <div class="feature-text">
+            <h3>Sync Antar Device</h3>
+            <p>Login di HP atau PC manapun, chat tetap sama.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon"><i class='bx bx-copy'></i></div>
+          <div class="feature-text">
+            <h3>Copy & Star</h3>
+            <p>Copy jawaban, tandai favorit, beri feedback.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon"><i class='bx bx-mobile'></i></div>
+          <div class="feature-text">
+            <h3>Mobile Friendly</h3>
+            <p>Nyaman digunakan di HP, tablet, dan desktop.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODELS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow">AI Models</div>
+        <h2>Model yang Tersedia</h2>
+        <p>9 model AI dari provider terkemuka dunia.</p>
+      </div>
+
+      <div class="models">
+        <div class="model-card">
+          <img src="assets/logo.png" alt="GPT-4o Mini">
+          <div class="model-card-info">
+            <strong>GPT-4o Mini</strong>
+            <span>Cepat & efisien</span>
+          </div>
+        </div>
+        <div class="model-card">
+          <img src="assets/logo.png" alt="GPT-4o">
+          <div class="model-card-info">
+            <strong>GPT-4o</strong>
+            <span>Pintar & seimbang</span>
+          </div>
+        </div>
+        <div class="model-card">
+          <img src="assets/logo.png" alt="Claude 3.5 Sonnet">
+          <div class="model-card-info">
+            <strong>Claude 3.5 Sonnet</strong>
+            <span>Bagus untuk coding</span>
+          </div>
+        </div>
+        <div class="model-card">
+          <img src="assets/logo.png" alt="Claude 3.7 Sonnet">
+          <div class="model-card-info">
+            <strong>Claude 3.7 Sonnet</strong>
+            <span>Terbaru Claude</span>
+          </div>
+        </div>
+        <div class="model-card">
+          <img src="assets/logo.png" alt="Gemini 2.0 Flash">
+          <div class="model-card-info">
+            <strong>Gemini 2.0 Flash</strong>
+            <span>Cepat dari Google</span>
+          </div>
+        </div>
+        <div class="model-card">
+          <img src="assets/logo.png" alt="DeepSeek Chat V3">
+          <div class="model-card-info">
+            <strong>DeepSeek Chat V3</strong>
+            <span>Chat umum, terbaru</span>
+          </div>
+        </div>
+        <div class="model-card">
+          <img src="assets/logo.png" alt="DeepSeek Chat">
+          <div class="model-card-info">
+            <strong>DeepSeek Chat</strong>
+            <span>Chat umum</span>
+          </div>
+        </div>
+        <div class="model-card">
+          <img src="assets/logo.png" alt="DeepSeek R1">
+          <div class="model-card-info">
+            <strong>DeepSeek R1</strong>
+            <span>Reasoning & logika</span>
+          </div>
+        </div>
+        <div class="model-card">
+          <img src="assets/logo.png" alt="Qwen 2.5 72B">
+          <div class="model-card-info">
+            <strong>Qwen 2.5 72B</strong>
+            <span>Model besar, pintar</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-brand">
+      <img src="assets/logo.png" alt="Noerz Assistant">
+      <span>Noerz Assistant</span>
+    </div>
+    <div>© 2026 Noerholic. All rights reserved.</div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function () {
+  'use strict';
+
+  const SUPABASE_URL = 'https://gnrtuggbnuyxlocyarnl.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_73oPOwda0n8_9X7wxbORGA_MuVR_Agx';
+
+  async function checkAuth() {
+    try {
+      if (!window.supabase) return;
+      const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      const { data: { user } } = await sb.auth.getUser();
+
+      if (user) {
+        const navActions = document.getElementById('navActions');
+        if (navActions) {
+          navActions.innerHTML =
+            '<a href="chat.html" class="btn-nav primary">' +
+              "<i class='bx bx-message-square-dots'></i> Buka Chat" +
+            '</a>';
+        }
+      }
+    } catch (err) {
+      /* skip */
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', checkAuth);
+})();
+</script>
+
+</body>
+</html>
