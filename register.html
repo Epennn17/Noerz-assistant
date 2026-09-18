@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Daftar — Noerz Assistant</title>
+<meta name="description" content="Daftar ke Noerz Assistant.">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
+<style>
+  :root{
+    --bg:#08080a;--surface:rgba(255,255,255,0.04);
+    --border:rgba(255,255,255,0.08);--border-strong:rgba(255,255,255,0.14);
+    --border-glow:rgba(255,255,255,0.3);
+    --text:#f5f5f7;--text-secondary:#9a9aa2;--text-tertiary:#68686f;
+    --radius-sm:10px;--radius-md:14px;--radius-lg:16px;--radius-full:9999px;
+    --ease:cubic-bezier(0.16,1,0.3,1);
+  }
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html{overflow-x:hidden;overflow-x:clip;width:100%;max-width:100%;min-height:100%;}
+  body{
+    overflow-x:hidden;overflow-x:clip;width:100%;max-width:100%;
+    min-height:100vh;min-height:100dvh;
+    background:var(--bg);color:var(--text);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.5;
+    display:flex;flex-direction:column;
+  }
+  img,video,svg{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+  :focus{outline:none;}
+  :focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:6px;}
+
+  .main{flex:1;display:flex;flex-direction:column;align-items:center;padding:32px 16px 40px;gap:22px;text-align:center;}
+
+  .video-stage{position:relative;width:100%;max-width:400px;isolation:isolate;animation:fadeInUp 0.7s var(--ease);}
+  .glow-layer{position:absolute;inset:-40px;z-index:-1;pointer-events:none;filter:blur(50px);opacity:0;animation:glowPulse 8s ease-in-out infinite;}
+  .glow-blob{position:absolute;border-radius:50%;background:radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);}
+  .glow-blob.b1{width:60%;height:70%;top:0;left:0;animation:blobFloat1 12s ease-in-out infinite;}
+  .glow-blob.b2{width:55%;height:65%;bottom:0;right:0;animation:blobFloat2 15s ease-in-out infinite;}
+  @keyframes glowPulse{0%{opacity:0;transform:scale(0.9);}15%{opacity:0.7;transform:scale(1);}50%{opacity:0.45;transform:scale(1.05);}85%{opacity:0.6;transform:scale(1);}100%{opacity:0;transform:scale(0.9);}}
+  @keyframes blobFloat1{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(12px,8px) scale(1.1);}}
+  @keyframes blobFloat2{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(-12px,-8px) scale(1.1);}}
+
+  .video-frame{position:relative;width:100%;aspect-ratio:16/9;border-radius:var(--radius-lg);overflow:hidden;background:#000;border:0.5px solid rgba(255,255,255,0.1);box-shadow:0 1px 0 rgba(255,255,255,0.05) inset,0 16px 40px -16px rgba(0,0,0,0.8),0 0 40px -10px rgba(255,255,255,0.08);}
+  .video-frame video{width:100%;height:100%;object-fit:cover;display:block;}
+
+  .hero-text{display:flex;flex-direction:column;align-items:center;gap:6px;max-width:400px;animation:fadeInUp 0.7s 0.15s var(--ease) backwards;}
+  .hero-text h1{font-size:clamp(20px,5vw,26px);font-weight:800;letter-spacing:-0.03em;line-height:1.15;background:linear-gradient(180deg,#fff 0%,#a1a1a8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .hero-text p{font-size:13.5px;color:var(--text-secondary);line-height:1.6;}
+
+  .auth-card{width:100%;max-width:400px;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-md);padding:20px;animation:fadeInUp 0.7s 0.3s var(--ease) backwards;}
+  .auth-head{text-align:center;margin-bottom:18px;}
+  .auth-head h2{font-size:18px;font-weight:800;letter-spacing:-0.02em;margin-bottom:4px;}
+  .auth-head p{font-size:13px;color:var(--text-secondary);}
+
+  .field{margin-bottom:14px;text-align:left;}
+  .field label{display:block;font-size:12px;font-weight:600;color:var(--text-secondary);margin-bottom:8px;}
+  .field input{width:100%;padding:12px 14px;background:rgba(0,0,0,0.25);border:0.5px solid var(--border-strong);border-radius:var(--radius-sm);color:var(--text);font-family:inherit;font-size:15px;transition:border-color .2s var(--ease),box-shadow .2s var(--ease);}
+  .field input::placeholder{color:var(--text-tertiary);}
+  .field input:focus{outline:none;border-color:rgba(255,255,255,0.4);background:rgba(0,0,0,0.35);box-shadow:0 0 0 3px rgba(255,255,255,0.08);}
+  .field input.error{border-color:rgba(248,113,113,0.5);}
+  .field-error{display:none;font-size:11.5px;color:rgba(248,113,113,0.9);margin-top:6px;align-items:center;gap:5px;}
+  .field-error.show{display:flex;}
+  .field-error .bx{font-size:13px;flex-shrink:0;}
+  .field-with-icon{position:relative;}
+  .field-with-icon input{padding-right:44px;}
+  .field-toggle{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--text-tertiary);line-height:1;}
+  .field-toggle:hover{color:var(--text);}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 22px;border-radius:var(--radius-full);font-size:14px;font-weight:700;width:100%;white-space:nowrap;cursor:pointer;transition:transform .15s var(--ease),box-shadow .2s var(--ease),background .2s var(--ease),opacity .2s var(--ease);}
+  .btn:active:not(:disabled){transform:scale(0.98);}
+  .btn:disabled{opacity:0.6;cursor:not-allowed;}
+  .btn .bx{font-size:17px;flex-shrink:0;}
+  .btn-primary{background:#fff;color:var(--bg);box-shadow:0 0 20px rgba(255,255,255,0.15);}
+  .btn-primary:hover:not(:disabled){background:#f5f5f7;box-shadow:0 0 32px rgba(255,255,255,0.3);}
+  .btn .spinner{width:14px;height:14px;border:2px solid rgba(0,0,0,0.2);border-top-color:currentColor;border-radius:50%;animation:spin .7s linear infinite;display:none;flex-shrink:0;}
+  .btn.loading .spinner{display:inline-block;}
+
+  .success-card{display:none;text-align:center;padding:20px;}
+  .success-card.show{display:block;animation:fadeIn .4s var(--ease);}
+  .success-icon{width:60px;height:60px;border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.15);color:#fff;font-size:28px;box-shadow:0 0 32px rgba(255,255,255,0.15);}
+  .success-card h3{font-size:16px;font-weight:700;margin-bottom:6px;}
+  .success-card p{font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:14px;}
+  .success-card p strong{color:#fff;}
+
+  .auth-foot{text-align:center;margin-top:16px;font-size:13px;color:var(--text-secondary);}
+  .auth-foot a{color:#fff;font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(255,255,255,0.3);}
+  .auth-foot a:hover{text-decoration-color:#fff;}
+
+  .status-text{font-size:12px;color:var(--text-tertiary);min-height:18px;animation:fadeInUp 0.7s 0.45s var(--ease) backwards;}
+
+  @keyframes fadeInUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  .toast-wrap{position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:500;display:flex;flex-direction:column;gap:8px;width:calc(100% - 32px);max-width:400px;pointer-events:none;}
+  .toast{background:rgba(20,20,24,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:0.5px solid rgba(255,255,255,0.15);border-radius:var(--radius-sm);padding:12px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 12px 40px -8px rgba(0,0,0,0.6);animation:slideDown .3s var(--ease);pointer-events:auto;font-size:13px;}
+  .toast .bx{font-size:18px;flex-shrink:0;color:#fff;}
+  .toast.success{border-left:3px solid #fff;}
+  .toast.error{border-left:3px solid rgba(248,113,113,0.7);}
+  .toast.info{border-left:3px solid rgba(255,255,255,0.4);}
+  @keyframes slideDown{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+
+  @media (max-width:640px){.main{padding:24px 14px 32px;gap:18px;}}
+  @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important;}}
+</style>
+</head>
+<body data-page="register">
+
+<main class="main">
+
+  <div class="video-stage">
+    <div class="glow-layer">
+      <div class="glow-blob b1"></div>
+      <div class="glow-blob b2"></div>
+    </div>
+    <div class="video-frame">
+      <video autoplay muted loop playsinline preload="auto">
+        <source src="assets/hero.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <div class="hero-text">
+    <h1>Noerz Assistant</h1>
+    <p>Chat dengan AI canggih. Gratis.</p>
+  </div>
+
+  <div class="auth-card" id="authCard">
+    <div class="auth-head">
+      <h2>Buat Akun</h2>
+      <p>Daftar gratis, langsung chat</p>
+    </div>
+
+    <form id="registerForm" novalidate>
+      <div class="field">
+        <label for="registerEmail">Email</label>
+        <input type="email" id="registerEmail" placeholder="example@gmail.com" autocomplete="email" required>
+        <div class="field-error" id="registerEmailError">
+          <i class='bx bx-error-circle'></i>
+          <span>Email tidak valid.</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="registerPassword">Password</label>
+        <div class="field-with-icon">
+          <input type="password" id="registerPassword" placeholder="Min. 6 karakter" autocomplete="new-password" required>
+          <button type="button" class="field-toggle" data-toggle-password="registerPassword" aria-label="Tampilkan">
+            <i class='bx bx-show'></i>
+          </button>
+        </div>
+        <div class="field-error" id="registerPasswordError">
+          <i class='bx bx-error-circle'></i>
+          <span>Password minimal 6 karakter.</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="registerConfirm">Konfirmasi Password</label>
+        <div class="field-with-icon">
+          <input type="password" id="registerConfirm" placeholder="Ulangi password" autocomplete="new-password" required>
+          <button type="button" class="field-toggle" data-toggle-password="registerConfirm" aria-label="Tampilkan">
+            <i class='bx bx-show'></i>
+          </button>
+        </div>
+        <div class="field-error" id="registerConfirmError">
+          <i class='bx bx-error-circle'></i>
+          <span>Password tidak cocok.</span>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary" id="registerBtn">
+        <span class="spinner"></span>
+        <span class="btn-label"><i class='bx bx-user-plus'></i> Daftar</span>
+      </button>
+    </form>
+
+    <div class="auth-foot">
+      Sudah punya akun? <a href="login.html">Login</a>
+    </div>
+  </div>
+
+  <div class="auth-card success-card" id="successCard">
+    <div class="success-icon"><i class='bx bx-envelope'></i></div>
+    <h3>Cek Email Anda</h3>
+    <p>Link verifikasi dikirim ke<br><strong id="successEmail">example@gmail.com</strong></p>
+    <p style="font-size:12px;">Klik link di email untuk aktifkan akun.<br>Cek folder <strong>spam</strong> kalau tidak ada.</p>
+    <button type="button" class="btn btn-primary" id="backToLoginBtn">
+      <i class='bx bx-log-in'></i> Ke Login
+    </button>
+  </div>
+
+  <div class="status-text" id="statusText">Daftar untuk mulai chat</div>
+</main>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="auth.js" defer></script>
+
+</body>
+</html>
